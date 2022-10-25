@@ -20,7 +20,6 @@ const Navbar = () => {
     }
   }
 
-
   return (
     <div>
       <div className="flex flex-col md:flex-row md:justify-start justify-center items-center py-2 shadow-md">
