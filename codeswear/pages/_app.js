@@ -17,13 +17,23 @@ function MyApp({ Component, pageProps }) {
       localStorage.clear();
     }
   }, [])
+
+  useEffect(() => {
+    let subt = 0;
+    let keys = Object.keys(cart);
+    for(let i=0; i<keys.length; i++){
+      subt += cart[keys[i]].price * cart[keys[i]].qty;
+    }
+    setSubTotal(subt);
+  }, [cart])
+  
   
 
   const saveCart =(myCart)=>{
-    localStorage.setItem("cart",myCart);
+    localStorage.setItem("cart",JSON.stringify(myCart));
     let subt = 0;
     let keys = Object.keys(myCart);
-    for(let i=0; keys.length; i++){
+    for(let i=0; i<keys.length; i++){
       subt += myCart[keys[i]].price * myCart[keys[i]].qty;
     }
     setSubTotal(subt);
@@ -48,7 +58,7 @@ function MyApp({ Component, pageProps }) {
 
   const removeFromCart =(itemCode, qty, price, name, size, variant)=>{
     let newCart = cart;
-    if(itemCode in cart && newCart[itemCode].qty>0 ){
+    if(itemCode in cart ){
       newCart[itemCode].qty = cart[itemCode].qty - qty;
     }
     if(newCart[itemCode]["qty"]<=0){
