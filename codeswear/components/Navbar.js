@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { AiOutlineShoppingCart,AiFillCloseCircle,AiFillPlusCircle, AiFillMinusCircle } from 'react-icons/ai';
 import { BsFillBagCheckFill } from 'react-icons/bs';
+import { RiAccountCircleFill } from 'react-icons/ri';
 
 const Navbar = ({cart,addToCart,removeFromCart,clearCart,subTotal}) => {
   const ref = useRef();
@@ -32,11 +33,12 @@ const Navbar = ({cart,addToCart,removeFromCart,clearCart,subTotal}) => {
             <Link href={'/mugs'}><a><li>Mugs</li></a></Link>
           </ul>
         </div>
-        <div ref={ref} onClick={toggleCart} className="cart absolute right-0 top-4 mx-5">
-          <AiOutlineShoppingCart className='text-xl md:text-3xl'/>
+        <div ref={ref} className="cart absolute right-0 top-4 mx-5 flex">
+          <Link href={'/login'}><RiAccountCircleFill className='text-xl md:text-3xl mx-5'/></Link>
+          <AiOutlineShoppingCart onClick={toggleCart} className='text-xl md:text-3xl'/>
         </div>
 
-        <div ref={ref} className="w-72 h-full fixed sidebar  top-0 right-0 p-10 bg-gray-300 z-20 transform transition-transform translate-x-full ">
+        <div ref={ref} className={`w-72 h-full fixed sidebar  top-0 right-0 p-10 bg-gray-300 z-20 transform transition-transform translate-x-full`}>
           <h2 className="font-bold text-xl">Shopping Cart</h2>
           <span onClick={toggleCart} className="absolute top-5 right-2 cursor-pointer text-2xl"><AiFillCloseCircle/></span>
           <ol className='list-decimal font-semibold'>
