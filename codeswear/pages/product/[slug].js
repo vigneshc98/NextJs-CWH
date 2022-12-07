@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 import Product from '../../models/Product';
 
 const Slug = ({cart,addToCart,removeFromCart,clearCart,subTotal, product, variants}) => {
-    console.log(product);
-    console.log(variants);
+    // console.log(product);
+    // console.log(variants);
     const router = useRouter();
     const {slug} = router.query;
 
@@ -40,8 +40,13 @@ const Slug = ({cart,addToCart,removeFromCart,clearCart,subTotal, product, varian
     }
 
     //for reload purpose
-    const refreshVariant = (newsize, newcolor) =>{
-      let url = `http://localhost:3000/product/${variants[newcolor][newsize]['slug']}`
+    const refreshVariant = (newsize, newcolor, isColorSet) =>{
+      if(isColorSet){
+        newsize =  Object.keys(variants[newcolor])[0];
+      }
+      
+      let url = `http://localhost:3000/product/${variants[newcolor][newsize]['slug']}`;
+
       window.location = url;
     }
 
@@ -96,13 +101,14 @@ const Slug = ({cart,addToCart,removeFromCart,clearCart,subTotal, product, varian
                   <div className="flex">
                     <span className="mr-3">Color</span>
                     {Object.keys(variants).map((item, i)=> {
-                      return <button onClick={()=> refreshVariant(size, item)} key={i} className={`border-2 border-gray-300 ${colorConfig[item]} rounded-full w-6 h-6 ${color==item ? 'border-black': 'border-gray-200'}`} onClick={()=>setColor(item)} />
+                      // onClick={()=> refreshVariant(size, item)}
+                      return <button  key={i} className={`border-2 border-gray-300 ${colorConfig[item]} rounded-full w-6 h-6 ${color==item ? 'border-black': 'border-gray-200'}`} onClick={()=>refreshVariant(size, item, true)} />
                     })}
                   </div>
                   <div className="flex ml-6 items-center">
                     <span className="mr-3">Size</span>
                     <div className="relative">
-                      <select defaultValue={size} onChange={(e)=> refreshVariant(e.target.value, color)} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
+                      <select defaultValue={size} onChange={(e)=> refreshVariant(e.target.value, color, false)} className="rounded border appearance-none border-gray-300 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500 text-base pl-3 pr-10">
                       {/* {Object.keys(variants).map((item, i)=> console.log(Object.keys(variants[item])[0]))}        // variants[item] =  { M: { slug: 'wear-the-code2-orange-m' } */}
                         {Object.keys(variants[color]).map((item, i)=>  <option key={i} >{item}</option> )} 
                         
